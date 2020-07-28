@@ -17,7 +17,8 @@ function buildSubTLV(tagValue) {
 }
 
 function valueIsObject(tag) {
-   if (tag >= 02 && tag <= 51 || tag >= 80 && tag <= 99 || tag === 62)
+  tag = parseInt(tag);
+  if (tag >= 2 && tag <= 51 || tag >= 80 && tag <= 99 || tag === 62)
     return true;
 }
 
@@ -31,7 +32,7 @@ function buildTLV(qrcode) {
     const length = qrcode.slice(index + 2, index + 4);
     let value = qrcode.slice(index + 4, parseInt(length) + (index + 4));
 
-    if (valueIsObject(parseInt(tag))) {
+    if (valueIsObject(tag)) {
       value = buildSubTLV(value);
     }
     
