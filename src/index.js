@@ -1,16 +1,39 @@
-function buildTLV() {
-
-};
-
-const Parse = (qrcode) => {
-  const qrcodeLength = qrcode.length;
+function buildSubTLV(tagValue) {
   let index = 0;
   let response;
 
+  while (index < tagValue.length) {
+    const tag = tagValue.slice(index, index + 2);
+    const length = tagValue.slice(index + 2, index + 4);
+    const value = tagValue.slice(index + 4, parseInt(length) + (index + 4));
+
+    response = Object.assign({
+      [tag]: value,
+    }, response);
+    index += parseInt(length) + 4;
+  }
+
+  return response;
+}
+
+function valueIsObject(tag) {
+   if (tag >= 02 && tag <= 51 || tag >= 80 && tag <= 99 || tag === 62)
+    return true;
+}
+
+function buildTLV(qrcode) {
+  const qrcodeLength = qrcode.length;
+  let response;
+
+  let index = 0;
   while (index < qrcodeLength) {
     const tag = qrcode.slice(index, index + 2);
     const length = qrcode.slice(index + 2, index + 4);
-    const value = qrcode.slice(index + 4, index + 4 + parseInt(length));
+    let value = qrcode.slice(index + 4, parseInt(length) + (index + 4));
+
+    if (valueIsObject(parseInt(tag))) {
+      value = buildSubTLV(value);
+    }
     
     response = Object.assign({
       [tag]: value,
@@ -18,11 +41,13 @@ const Parse = (qrcode) => {
     index += parseInt(length) + 4;
   }
 
-  console.log(response);
+  return response;
+};
+
+function Parse(qrcode) {
+  return buildTLV(qrcode);
 };
 
 module.exports = {
   Parse,
 }
-
-Parse('0002010102122603666500512345');
