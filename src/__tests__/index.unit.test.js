@@ -31,7 +31,7 @@ describe('Index unit tests', () => {
 
       expect(parse).toEqual({
         '00': '01',
-        80: {
+        '80': {
           '00': '66',
         },
       });
@@ -43,7 +43,7 @@ describe('Index unit tests', () => {
 
       expect(parse).toEqual({
         '00': '01',
-        62: {
+        '62': {
           '00': '66',
         },
       });
