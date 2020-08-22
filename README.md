@@ -4,23 +4,27 @@ It is an npm package developed to allow you to parse EMVCo Merchant Presented QR
 
 ## How to install
 It is provided as an npm package:
+
 ```bash
 npm install emvco-merchant-parse
 ```
 
 ## How to import
 You can import this package using CommonJs:
+
 ```js
 const { EMVCO } = require('emvco-merchant-parse');
 ```
 
 Or using ES6:
+
 ```js
 import { EMVCO } from 'emvco-merchant-parse';
 ```
 
 ## How to use
 You can call the function parse with a qrcode as a parameter:
+
 ```js
 const { Parse } = require('emvco-merchant-parse');
 
@@ -29,7 +33,8 @@ const qrcode = '00020101021226160012com.merchant52040123540518.765802BR5909Pet S
 const parsedQrcode = Parse(qrcode);
 ```
 
-The response will be provided in a object format:
+The response will be provided as an object:
+
 ```
 {
   '26': { 
