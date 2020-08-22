@@ -1,5 +1,5 @@
 {
-  "name": "emvco-parse",
+  "name": "emvco-merchant-parse",
   "version": "1.1.0",
   "description": "It is a EMVCo Merchant Presented Parse",
   "main": "src/index.js",
