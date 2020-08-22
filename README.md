@@ -30,7 +30,7 @@ const parsedQrcode = Parse(qrcode);
 ```
 
 The response will be provided in a object format:
-```json
+```
 {
   '26': { 
     '00': 'com.merchant',
