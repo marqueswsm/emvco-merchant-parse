@@ -23,7 +23,7 @@ import { EMVCO } from 'emvco-merchant-parse';
 ```
 
 ## How to use
-You can call the function parse with a qrcode as a parameter:
+You can call the function `Parse` with a qrcode as a parameter:
 
 ```js
 const { Parse } = require('emvco-merchant-parse');
