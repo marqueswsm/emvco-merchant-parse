@@ -13,13 +13,13 @@ npm install emvco-merchant-parse
 You can import this package using CommonJs:
 
 ```js
-const { EMVCO } = require('emvco-merchant-parse');
+const { Parse } = require('emvco-merchant-parse');
 ```
 
 Or using ES6:
 
 ```js
-import { EMVCO } from 'emvco-merchant-parse';
+import { Parse } from 'emvco-merchant-parse';
 ```
 
 ## How to use
