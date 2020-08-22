@@ -49,7 +49,7 @@ describe('Index unit tests', () => {
       });
     });
 
-    it('should return a valid parse with a two keys containing an object (key 62 and 80)', () => {
+    it('should return a valid parse with two keys containing an object (key 62 and 80)', () => {
       const qrcodeString = '00020162060002668006000266';
       const parse = EMVCo.Parse(qrcodeString);
 
@@ -61,6 +61,15 @@ describe('Index unit tests', () => {
         '80': {
           '00': '66',
         },
+      });
+    });
+
+    it('should return a valid parse with a key containing a long name', () => {
+      const qrcodeString = '5916Bruce Wayne LTDA';
+      const parse = EMVCo.Parse(qrcodeString);
+
+      expect(parse).toEqual({
+        '59': 'Bruce Wayne LTDA',
       });
     });
   });
