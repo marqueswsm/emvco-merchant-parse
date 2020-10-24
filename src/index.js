@@ -1,47 +1,60 @@
-function buildSubTLV(tagValue) {
-  let index = 0;
-  let response;
+const { stringToInt } = require('./helper/parseInt');
+const {
+  getTag,
+  getLengh,
+  getValue,
+} = require('./helper/get');
 
-  while (index < tagValue.length) {
-    const tag = tagValue.slice(index, index + 2);
-    const length = tagValue.slice(index + 2, index + 4);
-    const value = tagValue.slice(index + 4, parseInt(length, 10) + (index + 4));
-
-    response = { [tag]: value, ...response };
-    index += parseInt(length, 10) + 4;
+function tagIsObject(tag) {
+  if ((tag >= 2 && tag <= 51) || (tag >= 80 && tag <= 99) || tag === 62) {
+    return true;
   }
 
-  return response;
-}
-
-function valueIsObject(tag) {
-  if ((tag >= 2 && tag <= 51) || (tag >= 80 && tag <= 99) || tag === 62) return true;
   return false;
 }
 
-function buildTLV(qrcode) {
-  const qrcodeLength = qrcode.length;
+function ParseObject(value) {
+  let position = 0;
   let response;
 
-  let index = 0;
-  while (index < qrcodeLength) {
-    const tag = qrcode.slice(index, index + 2);
-    const length = qrcode.slice(index + 2, index + 4);
-    let value = qrcode.slice(index + 4, parseInt(length, 10) + (index + 4));
+  const qrcodeLength = qrcode.length;
 
-    if (valueIsObject(parseInt(tag, 10))) {
-      value = buildSubTLV(value);
-    }
+  while (position < qrcodeLength) {
+    const tagInfo = getTag(position, qrcode);
+    const lengthInfo = getLengh(position, qrcode);
+    const valueInfo = getValue(position, lengthInfo, qrcode);
 
-    response = { [tag]: value, ...response };
-    index += parseInt(length, 10) + 4;
+    response = {
+      [tagInfo]: valueInfo, ...response,
+    };
+    position += stringToInt(lengthInfo) + 4;
   }
 
   return response;
 }
 
 function Parse(qrcode) {
-  return buildTLV(qrcode);
+  let position = 0;
+  let response;
+
+  const qrcodeLength = qrcode.length;
+
+  while (position < qrcodeLength) {
+    const tagInfo = getTag(position, qrcode);
+    const lengthInfo = getLengh(position, qrcode);
+    let valueInfo = getValue(position, lengthInfo, qrcode);
+
+    if (tagIsObject(tagInfo)) {
+      valueInfo = ParseObject(valueInfo)
+    };
+
+    response = {
+      [tagInfo]: valueInfo, ...response,
+    };
+    position += stringToInt(lengthInfo) + 4;
+  }
+
+  return response;
 }
 
 module.exports = {
